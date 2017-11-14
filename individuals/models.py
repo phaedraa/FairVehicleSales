@@ -2,8 +2,8 @@ from __future__ import unicode_literals
 
 from django.db import models
 from utils.sales import TransactionEntityType
- 	
- 	
+
+
 class Individual(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     first_name = models.CharField(max_length=100, blank=False, null=False)
@@ -13,7 +13,7 @@ class Individual(models.Model):
     dob = models.CharField(max_length=25, blank=False, null=False)
 
     def type(self):
-    	return TransactionEntityType.individual.value
+        return TransactionEntityType.individual.value
 
     class Meta:
         ordering = ('created_at',)

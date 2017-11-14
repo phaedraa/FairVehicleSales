@@ -38,23 +38,24 @@ def fetch_or_create_related_classes_and_update_data(data):
 
 @api_view(['GET'])
 def vehicle_sales_car_detail(request, vin):
-    """ Get all Vehicle Sales of specific car """ 
+    """ Get all Vehicle Sales of specific car """
     try:
-    	vehicle_sales = VehicleSales.objects.filter(vin=vin).order_by('created_at')
-    	return_latest = request.data.get('latest')
-    	serializer = (
-    	    VehicleSalesSerializer(vehicle_sales.first()) if return_latest else
-    	    VehicleSalesSerializer(vehicle_sales, many=True))
-    	return Response(serializer.data)
+        vehicle_sales = VehicleSales.objects.filter(
+            vin=vin).order_by('created_at')
+        return_latest = request.data.get('latest')
+        serializer = (
+            VehicleSalesSerializer(vehicle_sales.first()) if return_latest else
+            VehicleSalesSerializer(vehicle_sales, many=True))
+        return Response(serializer.data)
     except Exception as e:
-    	error = {'error': 'Invalid request: {}'.format(str(e))}
-    	return Response(error, status.HTTP_400_BAD_REQUEST)
+        error = {'error': 'Invalid request: {}'.format(str(e))}
+        return Response(error, status.HTTP_400_BAD_REQUEST)
 
 
 def fetch_car_classes(data):
     if not data:
         return None
-    query = Q()    
+    query = Q()
     if data.get('make'):
         query &= Q(make=data.get('make'))
     if data.get('model'):
@@ -66,7 +67,10 @@ def fetch_car_classes(data):
 
 @api_view(['GET', 'POST'])
 def vehicle_sales_list(request):
-    """ Query Vehicle Sales by car_class, buyer, and/or seller or, Create Vehicle Sale """
+    """
+    Query Vehicle Sales by car_class, buyer, and/or seller or,
+    Create Vehicle Sale
+    """
     if request.method == 'GET':
         data = request.data
         vehicle_sales = VehicleSales.objects.filter().order_by('created_at')
@@ -79,14 +83,16 @@ def vehicle_sales_list(request):
             return Response(error, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-        	validate_buyer_seller_relationship(data.get('buyer'), data.get('seller'))
+            validate_buyer_seller_relationship(
+                data.get('buyer'), data.get('seller'))
         except Exception as e:
-        	return Response(error, status=status.HTTP_400_BAD_REQUEST)
+            return Response(error, status=status.HTTP_400_BAD_REQUEST)
 
         try:
             buyer = fetch_entity(data.get('buyer'))
             if buyer:
-                vehicle_sales = vehicle_sales.filter(Q(buyer_id=buyer.id, buyer_type=buyer.type()))
+                vehicle_sales = vehicle_sales.filter(
+                    Q(buyer_id=buyer.id, buyer_type=buyer.type()))
         except Exception as e:
             error = {'error': 'Invalid buyer query: {}'.format(str(e))}
             return Response(error, status=status.HTTP_400_BAD_REQUEST)
@@ -94,33 +100,33 @@ def vehicle_sales_list(request):
         try:
             seller = fetch_entity(data.get('seller'))
             if seller:
-                vehicle_sales = vehicle_sales.filter(Q(seller_id=seller.id, seller_type=seller.type()))
+                vehicle_sales = vehicle_sales.filter(
+                    Q(seller_id=seller.id, seller_type=seller.type()))
         except Exception as e:
             error = {'error': 'Invalid seller query: {}'.format(str(e))}
             return Response(error, status=status.HTTP_400_BAD_REQUEST)
 
-        return_latest = data.get('latest')
+        get_latest = data.get('latest')
         serializer = (
-            VehicleSalesSerializer(vehicle_sales, many=True) if not return_latest
+            VehicleSalesSerializer(vehicle_sales, many=True) if not get_latest
             else VehicleSalesSerializer(vehicle_sales.first()))
         return Response(serializer.data)
 
-
     if request.method == 'POST':
-    	data = request.data
+        data = request.data
         try:
-        	fetch_or_create_related_classes_and_update_data(data)
+            fetch_or_create_related_classes_and_update_data(data)
         except Exception as e:
-        	error = {'error': 'Invalid buyer-seller data: {}'.format(str(e))}
-        	return Response(error, status=status.HTTP_400_BAD_REQUEST)
+            error = {'error': 'Invalid buyer-seller data: {}'.format(str(e))}
+            return Response(error, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-        	vehicle_sale = VehicleSales.create_sale(data)
-    		serializer = VehicleSalesSerializer(vehicle_sale)
-        	return Response(serializer.data)
+            vehicle_sale = VehicleSales.create_sale(data)
+            serializer = VehicleSalesSerializer(vehicle_sale)
+            return Response(serializer.data)
         except Exception as e:
-        	error = {'error': 'Invalid request data: {}'.format(str(e))}
-        	return Response(error, status=status.HTTP_400_BAD_REQUEST)
+            error = {'error': 'Invalid request data: {}'.format(str(e))}
+            return Response(error, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
@@ -150,10 +156,10 @@ def vehicle_sales_detail(request, sale_id):
         try:
             vehicle_sale.delete()
             data = {
-                'Success': 'Vehicle Sale {} successfully deleted'.format(sale_id),
+                'Success': 'Vehicle Sale {} successfully deleted'
+                           .format(sale_id),
             }
             return Response(data)
         except Exception as e:
             error = {'error': 'Invalid request: {}'.format(str(e))}
             return Response(error, status=status.HTTP_400_BAD_REQUEST)
-

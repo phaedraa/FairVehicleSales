@@ -23,10 +23,8 @@ class VehicleSales(models.Model):
     seller_id = models.CharField(max_length=100, blank=False, null=False)
     seller_type = models.CharField(max_length=25, choices=CHOICES)
 
-
     def save(self, *args, **kwargs):
         super(VehicleSales, self).save(*args, **kwargs)
-
 
     @staticmethod
     def _get_or_create_car(car_class, vin):
@@ -34,13 +32,11 @@ class VehicleSales(models.Model):
         car.save()
         return car
 
-
     @staticmethod
     def _get_or_create_car_class(data):
         car_class, _ = CarClass.objects.get_or_create(**data)
         car_class.save()
         return car_class
-
 
     @classmethod
     def create_sale(cls, data):
@@ -49,7 +45,6 @@ class VehicleSales(models.Model):
         data['car_class'] = car_class
         return cls.objects.create(**data)
 
-
     @classmethod
     def update_data(cls, instance, data):
         for field in data:
@@ -57,7 +52,5 @@ class VehicleSales(models.Model):
         instance.save()
         return instance
 
-
     class Meta:
         ordering = ('created_at',)
-

@@ -131,3 +131,11 @@ res = requests.delete(
 Response will include a success key with status 200.
 
 ## QUESTIONS
+Security - How would you protect against outsiders from inserting/querying records?
+** Require users be registered in addition to employing token authentication.
+Scalability - Would anything change if your system had 100 million vehicle sale records? What if the API had to handle 10 searches per second?
+**In the case of large database of records: Sharding the database to distribute the load in addition to elastic search, could enable much faster data retrieval. With multiple searches per second, query caching would be useful, in addition to in to adding a slave database for read-only purposes. For both, adding index on relevant columns such as car vin, could also improve inefficiencies. 
+Data Integrity - How would you handle erroneous sale records data (e.g. malformed VINs, invalid field values)?
+**Validate data in the request, before creating or saving a record. Some of this can also be done on the object models themselves.
+Auditability - How would you track the source of any incoming data as well as the source of any searches?
+**

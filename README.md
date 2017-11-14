@@ -22,20 +22,22 @@ seller json. All car_class key, value pairs are required to create a valid car c
 buyer and seller keys, value pairs are required to create valid buyers and sellers.
 Buyer and seller types can be either 'dealer' OR 'individual'. A sale between can only
 occur between a dealer and individual.
+
 **If the buyer and/or seller already exist in our system, the id can passed in and all other fields,
 left as empty strings. Otherwise, all other fields are required and the id should be an empty string.*
 
 Example input json parameters:
-    ```
-    data = {
-        'buyer': {'ein': '553598', 'type': 'dealer', 'id': '', 'name': 'DealerABC'},
-        'price': 989898.33,
-        'vin': 'some_17_digit_vin',
-        'car_class': {'make': 'Tesla', 'model': 'S3', 'year': '2017'},
-        'seller': {'first_name': 'Alisia', 'last_name': 'Sanchez', 'ssn_last_4': '8932',
-        'dob': '05/30/1967', 'license_no': '123ND5', 'type': 'individual',
-        'id': ''},
-    }```
+```
+data = {
+    'buyer': {'ein': '553598', 'type': 'dealer', 'id': '', 'name': 'DealerABC'},
+    'price': 989898.33,
+    'vin': 'some_17_digit_vin',
+    'car_class': {'make': 'Tesla', 'model': 'S3', 'year': '2017'},
+    'seller': {'first_name': 'Alisia', 'last_name': 'Sanchez', 'ssn_last_4': '8932',
+    'dob': '05/30/1967', 'license_no': '123ND5', 'type': 'individual',
+    'id': ''},
+}
+```
 
 
 Accepted calls (using python `requests` library) include the bellow:

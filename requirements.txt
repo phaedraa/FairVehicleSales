@@ -1,0 +1,6 @@
+Django==1.11.6
+djangorestframework==3.7.1
+enum34==1.1.6
+requests==2.18
+serpy==0.2
+pytest==3.2.3

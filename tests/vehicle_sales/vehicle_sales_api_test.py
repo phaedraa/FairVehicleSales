@@ -15,6 +15,8 @@ import unittest
 # Also, ensure your test superuser has been created via
 # python manage.py createsuperuser with username 'admin'
 # and password 'password123'
+# Lastly, replace the URL port with the one corresponding
+# to your local server.
 
 URL = 'http://localhost:8000/vehicle_sales/'
 HEADERS = {'Content-Type': 'application/json'}

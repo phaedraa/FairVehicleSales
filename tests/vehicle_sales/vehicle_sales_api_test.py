@@ -9,6 +9,13 @@ import requests
 import json
 import unittest
 
+# NOTE: These test can run using pytest, but running
+# your local server via `./manage.py runserver` is first
+# required as `nose` is not yet integrated.
+# Also, ensure your test superuser has been created via
+# python manage.py createsuperuser with username 'admin'
+# and password 'password123'
+
 URL = 'http://localhost:8000/vehicle_sales/'
 HEADERS = {'Content-Type': 'application/json'}
 

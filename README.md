@@ -146,3 +146,6 @@ Data Integrity - How would you handle erroneous sale records data (e.g. malforme
 Auditability - How would you track the source of any incoming data as well as the source of any searches?
 
 **The incoming API request contains a decent amount of information on the source of the request, such as: the remote address of the client, the address (URI) of the resource from which the Request-URI was obtained and, if a forwarded header exists, a list of all ip addresses from the client ip to the last proxy server. All of this data can be tracked and stored for the ability to analyze the source of incoming data and searches.
+
+### NOTES:
+* This is currently using SQLite db, but should be migrated to PostgreSQL

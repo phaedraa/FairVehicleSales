@@ -140,7 +140,9 @@ Scalability - Would anything change if your system had 100 million vehicle sale 
 **In the case of large database of records: Sharding the database to distribute the load in addition to elastic search, could enable much faster data retrieval. With multiple searches per second, query caching would be useful, in addition to in to adding a slave database for read-only purposes. For both, adding index on relevant columns such as car vin, could also improve inefficiencies.
 
 Data Integrity - How would you handle erroneous sale records data (e.g. malformed VINs, invalid field values)?
+
 **Validate data in the request, before creating or saving a record. Some of this can also be done on the object models themselves.
 
 Auditability - How would you track the source of any incoming data as well as the source of any searches?
+
 **The incoming API request contains a decent amount of information on the source of the request, such as: the remote address of the client, the address (URI) of the resource from which the Request-URI was obtained and, if a forwarded header exists, a list of all ip addresses from the client ip to the last proxy server. All of this data can be tracked and stored for the ability to analyze the source of incoming data and searches.
